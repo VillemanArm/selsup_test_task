@@ -73,7 +73,7 @@ class ModelInterface extends React.Component<AppProps, AppState> {
 
 
         this.getInterfaceStructure = this.getInterfaceStructure.bind(this);
-        // this.editModel = this.editModel.bind(this);
+        this.editModelParamValues = this.editModelParamValues.bind(this);
         // this.addModel = this.addModel.bind(this);
     }
     
@@ -83,11 +83,11 @@ class ModelInterface extends React.Component<AppProps, AppState> {
                 {this.state.interfaceStructure.map(item => (
                         <div key={item.id}>
                             <span>{item.paramName}</span>
-                            {/* <AutoInput                                 
-                                // id={val.id}
+                            <AutoInput                                 
+                                id={item.id}
                                 value={item.paramValue} 
-                                handleInput={this.editModel}
-                            /> */}
+                                handleInput={this.editModelParamValues}
+                            />
                         </div>
                         )
                 )}
@@ -116,14 +116,14 @@ class ModelInterface extends React.Component<AppProps, AppState> {
         this.setState({interfaceStructure: [...newInterfaceStructure]})
     }
 
-    //editModel(newValue: string, id: number | string): void {
-        // const newModel = [...this.state.model]
-        // const index = newModel.findIndex(value => value.id === id)
-        // newModel[index].value = newValue
+    editModelParamValues(newValue: string, id: number | string): void {
+        const newModel = structuredClone(this.state.model)
+        const index = newModel.paramValues.findIndex((value: ParamValue) => value.paramId === id)
+        newModel.paramValues[index].value = newValue
         
-        // this.setState({model: [...newModel]})
+        this.setState({model: structuredClone(newModel)})
         
-    //}
+    }
 
     // addModel(paramId: number):void {
     //     const newParamValue: ParamValue = {
