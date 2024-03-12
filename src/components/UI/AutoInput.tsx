@@ -1,3 +1,5 @@
+// компонент запускает переданную в него функцию, после окончания ввода в текстовый input
+
 import React from 'react';
 
 interface InputProps {
@@ -23,7 +25,6 @@ class AppInput extends React.Component <InputProps, {}>{
     componentDidMount(): void {
         if (this.props.value && this.input.current) this.input.current.value = this.props.value;
     }
-
 
     render() {
         return (

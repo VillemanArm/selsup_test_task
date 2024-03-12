@@ -1,3 +1,8 @@
+/*Основной компонент.
+Вся логика задания в этом файле. Отдельно вынес только AutoInput, чтобы показать работу 
+с компонентами.
+*/
+
 import React from 'react';  
 import AutoInput from './UI/AutoInput';
 import { ImPlus, ImMinus } from "react-icons/im"
@@ -39,34 +44,34 @@ class ModelInterface extends React.Component<AppProps, AppState> {
         this.state = {
             params: [  
                 {    
-                    "id": 1,    
-                    "name": "Назначение"  
+                    id: 1,    
+                    name: "Назначение"  
                 },  
                 {    
-                    "id": 2,    
-                    "name": "Длина"  
+                    id: 2,    
+                    name: "Длина"  
                 },
                 {    
-                    "id": 3,    
-                    "name": "Размер"  
+                    id: 3,    
+                    name: "Размер"  
                 },
             ],
             model: {    
                 paramValues: [
                     {      
-                        "paramId": 1,      
-                        "value": "повседневное"    
+                        paramId: 1,      
+                        value: "повседневное"    
                     },    
                     {     
-                        "paramId": 2,      
-                        "value": "макси"    
+                        paramId: 2,      
+                        value: "макси"    
                     },  
                 ],
 
             },
             interfaceStructure: []
 
-            }
+        }
 
 
         this.getInterfaceStructure = this.getInterfaceStructure.bind(this);
@@ -91,8 +96,7 @@ class ModelInterface extends React.Component<AppProps, AppState> {
                                 this.paramInput.current.value = ''
                             }
                         }}
-                    >
-                        
+                    >                      
                         <ImPlus />
                     </button>
                 </div>
@@ -112,7 +116,7 @@ class ModelInterface extends React.Component<AppProps, AppState> {
                                 <ImMinus />
                             </button>
                         </div>
-                        )
+                    )
                 )}
                 
             </div>
@@ -155,8 +159,7 @@ class ModelInterface extends React.Component<AppProps, AppState> {
         const index = newModel.paramValues.findIndex((value: ParamValue) => value.paramId === id)
         newModel.paramValues[index].value = newValue
         
-        this.setState({model: structuredClone(newModel)})
-        
+        this.setState({model: structuredClone(newModel)})      
     }
 
     addModelParamValues():void {
@@ -165,7 +168,7 @@ class ModelInterface extends React.Component<AppProps, AppState> {
 
         this.state.params.forEach(param => {
             if (!(newModel.paramValues.find(value => value.paramId === param.id))) {
-                newModel.paramValues.push({"paramId": param.id, "value": ""})               
+                newModel.paramValues.push({paramId: param.id, value: ""})               
                 isNewModelChanged = true 
             }
         })
