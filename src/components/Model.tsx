@@ -4,13 +4,11 @@ import AutoInput from './UI/AutoInput';
 export interface Param {
    id: number;
    name: string;
-  //  type: string;
 }
 
 export interface ParamValue {
     paramId: number,
     value: string,
-    // id: number,
 }
 
 interface Model {
@@ -30,8 +28,6 @@ interface AppState {
 }
 
 interface AppProps {
-    // params: Param[];
-    // model: Model;
 }
 
 
@@ -75,6 +71,7 @@ class ModelInterface extends React.Component<AppProps, AppState> {
         this.getInterfaceStructure = this.getInterfaceStructure.bind(this);
         this.editModelParamValues = this.editModelParamValues.bind(this);
         this.addModelParamValues = this.addModelParamValues.bind(this);
+        this.delParam = this.delParam.bind(this);
     }
 
     private paramInput = React.createRef<HTMLInputElement>()
@@ -85,14 +82,17 @@ class ModelInterface extends React.Component<AppProps, AppState> {
                 <div className="model-editor__param-add">
                     <span>Новый параметр</span>
                     <input type="text" ref={this.paramInput}/>
-                    <button type="button"
+                    <button 
+                        type="button"
                         onClick={() => {
                             this.addParam(this.paramInput.current?.value)
                             if (this.paramInput.current?.value) {
                                 this.paramInput.current.value = ''
                             }
                         }}
-                    >+</button>
+                    >
+                        +
+                    </button>
                 </div>
                 {this.state.interfaceStructure.map(item => (
                         <div key={item.id}>
@@ -102,6 +102,12 @@ class ModelInterface extends React.Component<AppProps, AppState> {
                                 value={item.paramValue} 
                                 handleInput={this.editModelParamValues}
                             />
+                            <button 
+                                type="button"
+                                onClick={() => {this.delParam(item.id)}}
+                            >
+                                -
+                            </button>
                         </div>
                         )
                 )}
@@ -113,6 +119,15 @@ class ModelInterface extends React.Component<AppProps, AppState> {
     async componentDidMount() {
         await this.addModelParamValues()
         await this.getInterfaceStructure()
+    }
+
+    async componentDidUpdate(prevProps: Readonly<AppProps>, prevState: Readonly<AppState>, snapshot?: any) {
+        if (prevState.params !== this.state.params) {
+            await this.addModelParamValues()
+            await this.getInterfaceStructure() 
+        }
+
+        // не стал синхронизирвоать изменения значений параметров с interfaceStructure так как на данном этапе это лишний вызов функций, который не влияет на отображение
     }
     
     // getInterfaceStructure делает то, что должен был делать getModel - собирать структуру для интерфейса. Такое название показалось мне логичнее
@@ -168,7 +183,12 @@ class ModelInterface extends React.Component<AppProps, AppState> {
         }
     }
 
-
+    delParam(deletedId: number | string): void {
+        let newParams: Param[] = [...this.state.params]
+        newParams = newParams.filter(param => param.id !== deletedId)
+        
+        this.setState({params: [...newParams]})
+    }
 }
 
 export default ModelInterface;
