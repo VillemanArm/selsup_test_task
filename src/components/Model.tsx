@@ -74,12 +74,26 @@ class ModelInterface extends React.Component<AppProps, AppState> {
 
         this.getInterfaceStructure = this.getInterfaceStructure.bind(this);
         this.editModelParamValues = this.editModelParamValues.bind(this);
-        // this.addModel = this.addModel.bind(this);
+        this.addModelParamValues = this.addModelParamValues.bind(this);
     }
+
+    private paramInput = React.createRef<HTMLInputElement>()
     
     render(): React.ReactNode {
         return (
-            <div className="">
+            <div className="model-editor">
+                <div className="model-editor__param-add">
+                    <span>Новый параметр</span>
+                    <input type="text" ref={this.paramInput}/>
+                    <button type="button"
+                        onClick={() => {
+                            this.addParam(this.paramInput.current?.value)
+                            if (this.paramInput.current?.value) {
+                                this.paramInput.current.value = ''
+                            }
+                        }}
+                    >+</button>
+                </div>
                 {this.state.interfaceStructure.map(item => (
                         <div key={item.id}>
                             <span>{item.paramName}</span>
@@ -96,13 +110,15 @@ class ModelInterface extends React.Component<AppProps, AppState> {
         )
     }
 
-    componentDidMount(): void {
-        this.getInterfaceStructure()
+    async componentDidMount() {
+        await this.addModelParamValues()
+        await this.getInterfaceStructure()
     }
     
     // getInterfaceStructure делает то, что должен был делать getModel - собирать структуру для интерфейса. Такое название показалось мне логичнее
     getInterfaceStructure(): void {
         const newInterfaceStructure: ParamItem[] = []
+
         this.state.params.forEach(param => {
             const paramValue: string = this.state.model.paramValues.find(item => item.paramId === param.id)?.value || ''
             const newParamItem: ParamItem = {
@@ -125,14 +141,32 @@ class ModelInterface extends React.Component<AppProps, AppState> {
         
     }
 
-    // addModel(paramId: number):void {
-    //     const newParamValue: ParamValue = {
-    //         paramId,
-    //         value: '',
-    //     }
+    addModelParamValues():void {
+        const newModel: Model = structuredClone(this.state.model)
+        let isNewModelChanged: boolean = false 
 
-    //     this.setState({model: [...this.state.model, newParamValue]})
-    // }
+        this.state.params.forEach(param => {
+            if (!(newModel.paramValues.find(value => value.paramId === param.id))) {
+                newModel.paramValues.push({"paramId": param.id, "value": ""})               
+                isNewModelChanged = true 
+            }
+        })
+
+        if (isNewModelChanged) {
+            this.setState({model: newModel})
+        }
+    }
+
+    addParam(newName: string | undefined): void {
+        if (newName && !this.state.params.find(param => param.name === newName)) {
+            const newParam: Param = {
+                id: Date.now(),
+                name: newName,
+            }
+    
+            this.setState({params: [...this.state.params, newParam]})
+        }
+    }
 
 
 }
