@@ -1,5 +1,6 @@
 import React from 'react';  
 import AutoInput from './UI/AutoInput';
+import { ImPlus, ImMinus } from "react-icons/im"
 
 export interface Param {
    id: number;
@@ -79,9 +80,9 @@ class ModelInterface extends React.Component<AppProps, AppState> {
     render(): React.ReactNode {
         return (
             <div className="model-editor">
-                <div className="model-editor__param-add">
+                <div className="model-editor__param-add model-editor__row">
                     <span>Новый параметр</span>
-                    <input type="text" ref={this.paramInput}/>
+                    <input type="text" className='text-input' ref={this.paramInput}/>
                     <button 
                         type="button"
                         onClick={() => {
@@ -91,22 +92,24 @@ class ModelInterface extends React.Component<AppProps, AppState> {
                             }
                         }}
                     >
-                        +
+                        
+                        <ImPlus />
                     </button>
                 </div>
                 {this.state.interfaceStructure.map(item => (
-                        <div key={item.id}>
+                        <div key={item.id} className='model-editor__row'>
                             <span>{item.paramName}</span>
-                            <AutoInput                                 
+                            <AutoInput      // универсальный компонент, который может использоваться во всем проекте, поэтому вывел его в отдельный файл                           
                                 id={item.id}
                                 value={item.paramValue} 
+                                placeholder='введите значение'
                                 handleInput={this.editModelParamValues}
                             />
                             <button 
                                 type="button"
                                 onClick={() => {this.delParam(item.id)}}
                             >
-                                -
+                                <ImMinus />
                             </button>
                         </div>
                         )

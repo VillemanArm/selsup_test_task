@@ -30,7 +30,7 @@ class AppInput extends React.Component <InputProps, {}>{
             <input 
                 ref={this.input}
                 type="text" 
-                className='app-input' 
+                className='text-input' 
                 placeholder={this.props.placeholder}
                 onInput={this.debounce((event: React.ChangeEvent<HTMLInputElement>) => {this.props.handleInput(event.target.value, this.props.id)}, 500)}
             ></input>
