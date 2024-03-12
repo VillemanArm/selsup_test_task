@@ -1,0 +1,28 @@
+.model-editor
+    padding: 18rem 36rem
+    position: absolute
+    top: 50%
+    left: 50%
+    transform: translate(-50%, -50%)
+
+    font-size: 17rem
+
+    border-radius: 12rem
+    box-shadow: -0 0 12rem 6rem rgba(0, 0, 0, 0.5)
+
+.model-editor__row
+    display: grid
+    grid-template-columns: 160rem 220rem 40rem
+    column-gap: 12rem
+    align-items: center
+
+    &:not(:last-child)
+        margin-bottom: 10rem
+
+    &>span
+
+        font-weight: 500
+
+.model-editor__param-add
+    padding-bottom: 12rem
+    border-bottom: 1px solid #6d8087

@@ -1,0 +1,78 @@
+
+@import normalize
+
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap')
+
+$primary-color: #FFF
+$secondary-color: #00A7E7
+
+$primary-font-color: #000
+$secondary-font-color: #00A7E7
+
+*
+    margin: 0
+    padding: 0
+    box-sizing: border-box
+
+html
+    font-size: 1px
+
+body
+    font-size: 14rem
+    font-family: 'Open Sans', sans-serif
+    color: $primary-font-color
+
+a
+    text-decoration: none
+    cursor: pointer
+    color: $primary-font-color
+
+img
+    width: 100%
+    height: 100%
+    object-fit: contain
+
+// .container
+//     width: 1000rem
+//     margin-left: auto
+//     margin-right: auto
+
+button
+    display: flex
+    align-items: center
+    justify-content: center
+    height: 26rem
+    padding: 8rem
+    box-sizing: border-box
+
+    font-size: 17rem
+
+    background-color: $secondary-color
+    border: 2rem solid $secondary-color
+    border-radius: 6rem
+    color: $primary-color
+    cursor: pointer
+    transition: all 0.3s ease
+
+    &>svg
+        width: 14px
+        height: 14px
+
+        fill: $primary-color
+
+    &:hover
+        background-color: transparent
+        color: $secondary-color
+
+        &>svg
+            fill: $secondary-color
+
+.text-input
+    height: 26rem
+    padding: 2rem 6rem
+
+    border-radius: 6rem
+
+    outline-color: $secondary-color
+
+@import components/model_interface.sass
